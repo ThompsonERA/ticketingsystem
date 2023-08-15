@@ -1,23 +1,24 @@
 const express = require('express');
 const mysql = require('mysql2');
+require("dotenv").config({path: '.env'});
 
 const app = express();
+
 const pool = mysql.createPool({
-    host: 'localhost',
-    database:'tickets',
-    user:'Thompson',
-    password: 'Thompson0429',
+    host: process.env.HOST,
+    database:process.env.DATABASE,
+    user:process.env.USER,
+    password: process.env.PASSWORD,
     connectionLimit: 10,
 })
 
 app.get('/',(req,res) =>{
-    pool.query('SELECT * FROM test',(error,result) =>{
+    pool.query('SELECT * FROM test',(error,result) => {
         if (error){
             console.error(error);
             res.send(error);
             return;
         }
-
         res.send(result);
     })
 })
