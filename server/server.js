@@ -44,7 +44,7 @@ app.get("/ticket/:id", (req, res) => {
 
 app.post("/ticket", (req, res) => {
     const ticket = req.body;
-    pool.query("INSERT INTO ticket(summer,priority,status) values(?,?,?)", [ticket.summery, ticket.priority, ticket.status], (error, result) => {
+    pool.query("INSERT INTO ticket (summary,priority,status) values (?,?,?)", [ticket.summary,ticket.priority,ticket.status], 
         (error, result) => {
             if (error) {
                 console.error(error);
@@ -53,7 +53,7 @@ app.post("/ticket", (req, res) => {
             }
             res.send({ id: result.insertId, ...ticket });
         }
-    })
+    )
 });
 
 app.delete("/ticket/:id", (req, res) => {
