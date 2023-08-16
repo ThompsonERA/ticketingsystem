@@ -1,7 +1,9 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require("cors");
 require("dotenv").config({ path: '.env' });
 
+const PORT = process.env.PORT
 const app = express();
 
 const pool = mysql.createPool({
@@ -10,7 +12,12 @@ const pool = mysql.createPool({
     user: process.env.USER,
     password: process.env.PASSWORD,
     connectionLimit: 10,
-})
+});
+
+app.use(express.json());
+app.use(cors({
+    origin:"*",
+}))
 
 app.get('/all', (req, res) => {
     pool.query('SELECT * FROM ticket', (error, result) => {
@@ -37,7 +44,7 @@ app.get("/ticket/:id", (req, res) => {
 
 app.post("/ticket", (req, res) => {
     const ticket = req.body;
-    pool.query("INSERT INTO ticket (summer,priority,status) values(?,?,?)", [ticket.summery, ticket.priority, ticket.status], (error, result) => {
+    pool.query("INSERT INTO ticket(summer,priority,status) values(?,?,?)", [ticket.summery, ticket.priority, ticket.status], (error, result) => {
         (error, result) => {
             if (error) {
                 console.error(error);
@@ -49,9 +56,22 @@ app.post("/ticket", (req, res) => {
     })
 });
 
-app.put('/ticket', (req, res) => {
+app.delete("/ticket/:id", (req, res) => {
+    const id = req.params.id;
+    pool.query('DELETE * FROM ticket where id = ?', [id], (error, result) => {
+        if (error) {
+            console.error(error);
+            res.send(error);
+            return;
+        }
+        res.send('Success');
+    })
+});
+
+app.put('/ticket/:id', (req, res) => {
+    const id = req.params.id;
     const ticket = req.body;
-    pool.query('UPDATE ticket set ? WHERE id = ?', [ticket, ticket.id],
+    pool.query('UPDATE ticket set ? WHERE id = ?', [ticket, id],
         (error, result) => {
             if (error) {
                 console.error(error);
@@ -65,6 +85,6 @@ app.put('/ticket', (req, res) => {
 })
 
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 })
