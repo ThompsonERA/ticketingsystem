@@ -19,6 +19,12 @@ export const createTicket = async (ticket) => {
         },
         body:JSON.stringify(ticket),
     });
+
+    if(response.status !== 200){
+        console.error("Could not create ticket ");
+        return null;
+    }
+
     return await response.json()
 };
 
@@ -35,6 +41,11 @@ export const updateTicket = async (id,ticket) => {
         },
         body:JSON.stringify(ticket),
     });
+    if(response.status !== 200){
+        console.error("Could not update ticket ");
+        return null;
+    }
+
     return await response.json()
 };
 

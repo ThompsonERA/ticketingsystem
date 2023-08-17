@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatDate } from '../../util/dateUtil';
 
 const TicketForm = ({
@@ -14,12 +14,18 @@ const TicketForm = ({
         const[tSummary,setTSummary] = useState(summary);
         const[tPriority,setTPriotity] = useState(priority);
         const[tStatus, setTStatus] = useState(status);
+
+    useEffect(() => {
+        setTSummary(summary);
+        setTPriotity(priority || "LOW");
+        setTStatus(status || "CREATED")
+    },[id])
     
     return (
         <div className='ticket-form'>
             <div className='form'>
                 <label htmlFor='id'>ID</label>
-                <input type='number' name='id' value={id} disabled/>
+                <input type='number' name='id' value={id} disabled placeholder='Auto Generated'/>
 
                 <label htmlFor='summary'>SUMMARY</label>
                 <input type='text' name='summary' value={tSummary} disabled={readonly} onChange={(e)=> setTSummary(e.target.value)}/>

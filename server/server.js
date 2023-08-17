@@ -51,7 +51,7 @@ app.post("/ticket", (req, res) => {
                 res.send(error);
                 return;
             }
-            res.send({ id: result.insertId, ...ticket });
+            res.send({...ticket, id: result.insertId });
         }
     )
 });
@@ -79,7 +79,7 @@ app.put('/ticket/:id', (req, res) => {
                 return;
             }
 
-            res.send({ ticket });
+            res.send({...ticket, id});
         }
     );
 })
