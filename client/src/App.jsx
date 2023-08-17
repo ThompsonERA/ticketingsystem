@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { fetchAllTickets } from './services/ticketServices'
+import TicketForm from './Components/TicketForm/TicketForm'
 
 
 function App() {

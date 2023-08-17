@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { formatDate } from '../../util/dateUtil';
 
 const TicketForm = ({
     id = '',
@@ -8,7 +9,7 @@ const TicketForm = ({
     createDate = new Date(),
     updateDate = new Date(),
     readonly = false,
-    onSubmit = () => { },
+    onSubmit = () => {},
     }) => {
         const[tSummary,setTSummary] = useState(summary);
         const[tPriority,setTPriotity] = useState(priority);
@@ -39,13 +40,17 @@ const TicketForm = ({
                 </select>
 
                 <label htmlFor='createDate'>CREATE DATE</label>
-                <input type='date' name='createDate' value={createDate} disabled/>
+                <input type='date' name='createDate' value={formatDate(createDate)} disabled/>
 
                 <label htmlFor='updateeDate'>UPDATE DATE</label>
-                <input type='date' name='updateDate' value={updateDate} disabled/>
+                <input type='date' name='updateDate' value={formatDate(updateDate)} disabled/>
+                <button onClick={() =>{
+                    onSubmit(id,tSummary,tPriority,tStatus,createDate,updateDate);
+                }}>Submit</button>
             </div>
         </div>
     )
 }
+
 
 export default TicketForm
